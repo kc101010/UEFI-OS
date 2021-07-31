@@ -1,3 +1,4 @@
+#include "BasicRenderer.h"
 #include "kernelUtil.h"
 
 extern "C" void _start(BootInfo* bootInfo){
@@ -8,8 +9,8 @@ extern "C" void _start(BootInfo* bootInfo){
    
     GlobalRenderer->Print("Kernel Initialized Successfully");
 
-    int* test = (int*)0x800000000;
-    *test = 2;
-   
+    //int* test = (int*)0x800000000;
+    //*test = 2;
+
     while(true);
 }

@@ -1,4 +1,5 @@
 #include "BasicRenderer.h"
+#include <bits/stdint-uintn.h>
 
 BasicRenderer* GlobalRenderer;
 
@@ -9,6 +10,27 @@ BasicRenderer::BasicRenderer(Framebuffer* targetFrameBuffer, PSF1_FONT* psf1_Fon
     CursorPosition = {0,0};
 }
 
+void BasicRenderer::Clear(uint32_t colour){
+    uint64_t fbBase = (uint64_t)TargetFrameBuffer->BaseAddress;
+    uint64_t bytesPerScanline = TargetFrameBuffer->PixelsPerScanLine * 4;
+    uint64_t fbHeight = TargetFrameBuffer->Height;
+    uint64_t fbSize = TargetFrameBuffer->BufferSize;
+
+    for(int verticalScanline = 0; verticalScanline < fbHeight; verticalScanline++){
+        uint64_t pixPtrBase = fbBase + (bytesPerScanline * verticalScanline); //pt to first pixel in every row
+
+        for(uint32_t* pixPtr = (uint32_t*)pixPtrBase; pixPtr < (uint32_t*)(pixPtrBase + bytesPerScanline); pixPtr++ ){
+            *pixPtr = colour;
+
+        }
+
+    }
+}
+
+void BasicRenderer::Next(){
+    CursorPosition.X = 0;
+    CursorPosition.Y += 16;
+}
 
 void BasicRenderer::Print(const char* str){
     
