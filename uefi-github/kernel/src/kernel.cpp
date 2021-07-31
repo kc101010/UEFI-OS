@@ -1,14 +1,15 @@
 #include "kernelUtil.h"
 
 extern "C" void _start(BootInfo* bootInfo){
-    BasicRenderer newRenderer = BasicRenderer(bootInfo->framebuffer, bootInfo->psf1_Font);
-
-    //newRenderer.Print("Attempting to Init Kernel");
+    
 
     KernelInfo kernelInfo = InitializeKernel(bootInfo);
     PageTableManager* pageTableManager = kernelInfo.pageTableManager;
    
-    newRenderer.Print("Kernel Initialized Successfully");
+    GlobalRenderer->Print("Kernel Initialized Successfully");
+
+    int* test = (int*)0x800000000;
+    *test = 2;
    
     while(true);
 }
